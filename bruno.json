@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "name": "mobycontract-blockchain",
+  "collections": [
+    "bruno/sessao",
+    "bruno/ancoragem",
+    "bruno/consultas"
+  ]
+}

@@ -1,0 +1,21 @@
+info:
+  name: Meus Contratos
+  type: http
+  seq: 3
+
+http:
+  method: GET
+  url: "{{base_url}}/meus-contratos"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: x-api-key
+      value: "{{apiKey}}"
+  auth: none
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

@@ -1,0 +1,37 @@
+{
+  "name": "mobycontract-blockchain",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Camada blockchain do MobyContract: registro imutavel de contratos de locacao em Polygon Amoy",
+  "license": "UNLICENSED",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "test:relatorio": "hardhat test > relatorio-testes.txt 2>&1; tail -n 5 relatorio-testes.txt",
+    "node": "hardhat node --hostname 0.0.0.0",
+    "deploy:local": "hardhat run scripts/deploy.ts --network localhost",
+    "deploy:amoy": "hardhat run scripts/deploy.ts --network amoy",
+    "deploy:besu": "hardhat run scripts/deploy.ts --network besu",
+    "rede:besu": "sh besu/gerar-rede.sh",
+    "participante": "node besu/adicionar-participante.js",
+    "participante:remover": "node besu/remover-participante.js",
+    "registry": "ts-node --transpile-only registry/src/main.ts",
+    "gerar:senha": "ts-node --transpile-only scripts/gerar-senha.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.9.0",
+    "@types/pg": "^8.11.6",
+    "hardhat": "^2.22.17",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "ethers": "^6.13.4",
+    "express": "^4.21.1",
+    "pino": "^9.5.0",
+    "pg": "^8.11.5",
+    "zod": "^3.23.8"
+  }
+}

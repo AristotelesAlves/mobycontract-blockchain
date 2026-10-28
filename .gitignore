@@ -1,0 +1,22 @@
+node_modules/
+artifacts/
+typechain-types/
+cache/
+.hardhat-cache/
+deployments/
+relatorio-testes.txt
+*.log
+data/
+
+# Rede Besu: chaves de validador e enodes sao gerados localmente.
+besu/rede/
+.env
+.env.*
+!.env.example
+!besu/.env.example
+besu/.env
+# Chaves das partes entregues ao Web3Signer (efemeras; ver besu/adicionar-participante.js).
+besu/web3signer/*.yaml
+
+# Segredos: CHAVE_PRIVADA e PSEUDONIMO_SALT vivem no .env, nunca versionado.
+# O .env.example continua versionado de proposito - o padrao ".env" nao o casa.

@@ -1,0 +1,23 @@
+name: local_environment
+variables:
+  - name: base_url
+    value: 'http://localhost:8000/blockchain'
+    description: Registry service pela borda do nginx (o prefixo /blockchain e removido pelo proxy)
+  - name: apiKey
+    value: 'chave-local-de-desenvolvimento'
+    description: Chave de API das rotas de ancoragem (header x-api-key)
+  - name: contratoId
+    value: 'CT-2026-001'
+    description: Identificador do contrato no ledger
+  - name: aditivoId
+    value: 'ADT-001'
+    description: Identificador do aditivo
+  - name: vistoriaId
+    value: 'VST-001'
+    description: Identificador da vistoria
+  - name: imovelId
+    value: 'IMO-001'
+    description: Identificador do imovel
+  - name: parte
+    value: '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
+    description: Endereco 0x da parte do contrato (conta padrao do Anvil, checksum EIP-55)

@@ -1,0 +1,39 @@
+info:
+  name: Login - Entrar
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/auth/login"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "usuario": "admin",
+        "senha": "admin-local-de-desenvolvimento"
+      }
+  auth: none
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        const response = res.getBody();
+
+        if (res.getStatus() === 200) {
+          bru.setEnvVar("token", response.token);
+          console.log("Token do administrador salvo com sucesso!");
+        }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

@@ -1,0 +1,21 @@
+info:
+  name: Participantes - Remover
+  type: http
+  seq: 6
+
+http:
+  method: DELETE
+  url: "{{base_url}}/participantes/{{parte}}"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+  auth: none
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

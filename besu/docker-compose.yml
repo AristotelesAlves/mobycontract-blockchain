@@ -1,0 +1,101 @@
+name: mobycontract-besu
+
+# Rede privada QBFT do consorcio: 4 validadores, cada um com um no.
+# O validador-1 e o bootnode e expoe o RPC em 127.0.0.1:8545.
+#
+# Pre-requisito: sh besu/gerar-rede.sh  (gera besu/rede e besu/.env)
+#
+# Subir:  docker compose -f besu/docker-compose.yml up -d
+# Logs:   docker compose -f besu/docker-compose.yml logs -f validador-1
+#
+# Para abrir a rede para um novo membro do consorcio:
+#   1. gere/adicione o enode dele em besu/rede/permissions_config.toml
+#   2. use  qbft  no no validador: besu ... --rpc-http-api=...,QBFT
+#      e no JSON-RPC: qbft_proposeValidatorVote
+
+x-no-base: &no-base
+  image: ${BESU_IMAGEM:-hyperledger/besu:latest}
+  entrypoint: ["/config/entrypoint-no.sh"]
+  volumes:
+    - ./entrypoint-no.sh:/config/entrypoint-no.sh:ro
+    - ./rede:/config/rede:ro
+  networks:
+    - consorcio
+  restart: unless-stopped
+
+services:
+  validador-1:
+    <<: *no-base
+    container_name: moby-besu-validador-1
+    environment:
+      VALIDADOR: "1"
+      P2P_HOST: "172.28.0.11"
+    ports:
+      - "127.0.0.1:8545:8545"
+    networks:
+      consorcio:
+        ipv4_address: 172.28.0.11
+
+  validador-2:
+    <<: *no-base
+    container_name: moby-besu-validador-2
+    environment:
+      VALIDADOR: "2"
+      P2P_HOST: "172.28.0.12"
+      PARES: "${ENODE_VALIDADOR_1}"
+    ports:
+      - "127.0.0.1:8546:8545"
+    networks:
+      consorcio:
+        ipv4_address: 172.28.0.12
+
+  validador-3:
+    <<: *no-base
+    container_name: moby-besu-validador-3
+    environment:
+      VALIDADOR: "3"
+      P2P_HOST: "172.28.0.13"
+      PARES: "${ENODE_VALIDADOR_1}"
+    ports:
+      - "127.0.0.1:8547:8545"
+    networks:
+      consorcio:
+        ipv4_address: 172.28.0.13
+
+  validador-4:
+    <<: *no-base
+    container_name: moby-besu-validador-4
+    environment:
+      VALIDADOR: "4"
+      P2P_HOST: "172.28.0.14"
+      PARES: "${ENODE_VALIDADOR_1}"
+    ports:
+      - "127.0.0.1:8548:8545"
+    networks:
+      consorcio:
+        ipv4_address: 172.28.0.14
+
+  # Servico externo de assinatura das partes. Guarda as chaves privadas fora do
+  # registry service: quem assina uma ancoragem em nome de uma parte e o
+  # Web3Signer, e o registry so envia a transacao a assinar. Para onboardar uma
+  # parte, gere `besu/web3signer/<nome>.yaml` (ver besu/adicionar-participante.js)
+  # e reinicie este servico.
+  web3signer:
+    image: ${WEB3SIGNER_IMAGEM:-consensys/web3signer:latest}
+    container_name: moby-web3signer
+    command: ["--key-store-path=/keys", "eth1", "--chain-id=20250101"]
+    volumes:
+      - ./web3signer:/keys:ro
+    ports:
+      - "127.0.0.1:9000:9000"
+    networks:
+      consorcio:
+        ipv4_address: 172.28.0.15
+    restart: unless-stopped
+
+networks:
+  consorcio:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/24

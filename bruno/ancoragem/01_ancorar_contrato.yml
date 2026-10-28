@@ -1,0 +1,42 @@
+info:
+  name: Ancorar - Contrato
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/ancoras/contratos"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+    - name: x-api-key
+      value: "{{apiKey}}"
+  body:
+    type: json
+    data: |-
+      {
+        "versaoEsquema": 1,
+        "contratoId": "{{contratoId}}",
+        "imovelId": "{{imovelId}}",
+        "inquilinoId": "1",
+        "dataInicio": "2026-01-01",
+        "dataFim": "2026-12-31",
+        "valorMensalCentavos": "250000",
+        "garantia": "Caução",
+        "modeloId": "1",
+        "partes": ["{{parte}}"],
+        "tipoHash": 1,
+        "prazoVigenciaDias": 365,
+        "indiceReajuste": 0,
+        "documentoHash": "0x0000000000000000000000000000000000000000000000000000000000000001"
+      }
+  auth: none
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

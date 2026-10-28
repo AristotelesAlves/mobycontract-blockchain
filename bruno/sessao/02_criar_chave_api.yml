@@ -1,0 +1,43 @@
+info:
+  name: Chaves API - Criar
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/api-keys"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+  body:
+    type: json
+    data: |-
+      {
+        "nome": "Agencia Parceira",
+        "expiraEm": null,
+        "endereco": "{{parte}}"
+      }
+  auth: none
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        const response = res.getBody();
+
+        if (res.getStatus() === 201) {
+          bru.setEnvVar("apiKey", response.chave);
+          if (response.id) bru.setEnvVar("id", String(response.id));
+          console.log("Chave API salva no ambiente! Ela so e exibida nesta resposta.");
+        }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

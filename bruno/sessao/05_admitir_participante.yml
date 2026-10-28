@@ -1,0 +1,32 @@
+info:
+  name: Participantes - Admitir
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: "{{base_url}}/participantes"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+  body:
+    type: json
+    data: |-
+      {
+        "nome": "Imobiliaria Ponta",
+        "papel": "imobiliaria",
+        "endereco": "{{parte}}",
+        "chavePrivada": null
+      }
+  auth: none
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

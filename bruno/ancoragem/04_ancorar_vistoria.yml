@@ -1,0 +1,33 @@
+info:
+  name: Ancorar - Vistoria
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{base_url}}/ancoras/vistorias"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Accept
+      value: application/json
+    - name: x-api-key
+      value: "{{apiKey}}"
+  body:
+    type: json
+    data: |-
+      {
+        "vistoriaId": "{{vistoriaId}}",
+        "contratoId": "{{contratoId}}",
+        "imovelId": "{{imovelId}}",
+        "tipoRelacao": 1,
+        "documentoHash": "0x0000000000000000000000000000000000000000000000000000000000000003"
+      }
+  auth: none
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

@@ -1,0 +1,21 @@
+info:
+  name: Chaves API - Revogar
+  type: http
+  seq: 4
+
+http:
+  method: DELETE
+  url: "{{base_url}}/api-keys/{{id}}"
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{token}}
+  auth: none
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true
