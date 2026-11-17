@@ -94,6 +94,7 @@ services:
     restart: unless-stopped
 
   testes:
+    profiles: ["test"]
     build:
       context: .
       dockerfile: Dockerfile
@@ -118,5 +119,12 @@ volumes:
 
 networks:
   integracao:
-    external: true
+    driver: bridge
     name: mobycontract-integracao
+
+
+#O container deplouy tem como e fim, ele instala os contratos no anvil 
+# o fluxo é 
+# anvil inicia -> deploy instala os contratos -> deplou encerra -> registry usa os contratos.....
+
+# adicionar isso no tcc ! 

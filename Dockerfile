@@ -25,7 +25,7 @@ COPY --from=build /app/artifacts/contracts/MobyContractRegistry.sol/MobyContract
 COPY --from=build /app/artifacts/contracts/RegistroDeParticipantes.sol/RegistroDeParticipantes.json ./abi/RegistroDeParticipantes.json
 COPY --from=build /app/src/ ./src/
 COPY --from=build /app/registry/ ./registry/
-RUN chmod +x /app/registry/entrypoint.sh
+RUN sed -i 's/\r$//' /app/registry/entrypoint.sh && chmod +x /app/registry/entrypoint.sh
 
 RUN npm install --no-save ts-node@10 typescript@5 @types/node@24
 
